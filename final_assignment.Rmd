@@ -1,0 +1,40 @@
+---
+title: "ESM262_Final_Assignment"
+author: "Vienna Saccomanno"
+date: "6/4/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Attach packages
+library(tidyverse)
+
+#Source functions
+source("R/mean_rainfall.R")
+```
+
+
+```{r data}
+clim_data<- read.table("clim.txt") %>% 
+  unique()
+
+#number of unique years = 75
+as.factor(clim_data$year)
+
+number_years<-clim_data %>% 
+  group_by(year) %>% 
+  summarise(COUNT=n())
+
+number_years
+
+```
+
+```{r}
+mean_rainfall_output = mean_rainfall(clim_data)
+mean_rainfall_output
+```
+
