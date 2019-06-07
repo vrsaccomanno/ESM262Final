@@ -1,0 +1,44 @@
+---
+title: "ESM262_Final"
+author: "Claire Powers"
+date: "6/5/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The goal of this assignment is to create a package that will be used for assessing climate change impacts and developing mitiation and adaptation strategies
+
+(the goal here is to practice some coding skills so that routines and data may be provisional)
+
+Here’s what the package should contain:  
+- at least two different functions that summarize climate data in some way (your choice - it could be finding a trend, or finding extremes; or even simply mean winter precipitation)     
+
+- at least two functions that calculate some measure of impact (you can really make these up) -so for example you could create a function that computes a heat stress index based on air temperature with parameters that vary for different species; or a function that estimates water supply from precipitation with parameters that vary to reflect water storage …you can make something up just as long as its somewhat sensible  
+- one function that estimates the costs of impacts  
+- use multi-dimensional arrays in one of your functions  
+
+The package should contain:  
+- some sample data  
+- documentation for ALL functions  
+- a vignette that shows how to use several of the functions with the sample data  
+- 3 separate tests - (next weeks lecture)  
+
+```{r clim_var_relationships}
+library(tidyverse)
+library(testthat)
+clim_raw = read.table("clim.txt")
+
+clim = clim_raw %>% 
+  filter(year %in% 1980:2016) 
+
+source("R/clim_regression.R")
+
+climate_var_regress(clim,"tmin","month",plot = TRUE)
+
+
+```
+
+

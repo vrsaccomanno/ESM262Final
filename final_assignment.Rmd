@@ -19,7 +19,7 @@ source("R/mean_rainfall.R")
 
 
 ```{r data}
-clim_data<- read.table("clim.txt") %>% 
+clim_data <- read.table("clim.txt") %>% 
   unique()
 
 #number of unique years = 75
