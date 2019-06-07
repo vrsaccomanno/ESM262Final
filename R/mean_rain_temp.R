@@ -1,5 +1,5 @@
 #' 
-#' Climate function #1
+#' Climate function #1 - mean rainfall, maximum temperature and minimum temperature by year
 #' 
 #' @param clim_data An input dataframe/table populated with data from the SB-LTER meterology station that includes information on daily maximum temperature, minimum temperature, and rainfall from 1942-2016
 #' 
@@ -19,24 +19,14 @@
 #' 
 #' 
 
-mean_rainfall = function(clim_table){
+mean_rain_temp = function(clim_table){
   
-  #create an output table for average rainfall per year
-  #mean_by_year = as.data.frame(matrix(ncol = 1,
-                                         #nrow = 75))
   
-  #assign row names
-  #rownames(mean_by_year)<- unique(clim_data$year)
-  
-  #assign column name
-  #colnames(mean_by_year)<-c("Mean Rainfall")
-  
-  #Fill in average rainfall per year in tidy format
-  mean_by_year<- clim_data %>% 
-    select(year, rain) %>% 
+  #Summarize average rainfall, maximum temperature and minimum temperature per year in tidy format
+  mean_by_year<- clim_table %>% 
+    select(year, tmin, tmax, rain) %>% 
     group_by(year) %>% 
-    summarize(mean_rain = mean(rain))
-    #mutate(mean_rainfall = mean(rain, na.rm = TRUE))
+    summarize(mean_rain = mean(rain), mean_tmin = mean(tmin), mean_tmax = mean(tmax))
   
   return(list(mean_by_year=mean_by_year))
 }
