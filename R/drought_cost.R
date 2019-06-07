@@ -16,18 +16,25 @@
 
 
 compute_water_NPV = function(df, mean_rain, water_consumption, water_price, drought_co = 1.5) {
+  
+  #Making a blank vector to fill with water bill info
+  water_bill_nominal<-rep(0, nrow(df)) #assumes good rain in every year
+  water_bill_true<-rep(0, nrow(df)) #What actually happens
+  #water_bill_diff<-rep(0, nrow(df)) #The difference between "true" and "nominal"
  
-  for(i in 1:nrow(mean_rain)){
+  for(i in 1:nrow(df)){
     
    if(df$mean_rain[i] <2){
-    drought_cost = df$water_price[i]*drought_co [i]
-    water_bill = df$water_consumption[i]*drought_cost[i]
+    drought_corrfact = drought_co
   }
   
   else{
-    water_bill = df$water_consumption[i]* df$water_price[i]
+    drought_corrfact = 1
   }
+    water_bill_true [i] = df$water_consumption[i]*df$water_price[i]*drought_corrfact
+    water_bill_nominal[i] = df$water_consumption[i]*df$water_price[i]
+
   }
   
-  return(list(water_bill=water_bill))
+  return(data.frame(water_bill_nominal=water_bill_nominal, water_bill_true=water_bill_true, difference = water_bill_true-water_bill_nominal))
   }
