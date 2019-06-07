@@ -22,15 +22,6 @@ source("R/mean_rainfall.R")
 clim_data <- read.table("clim.txt") %>% 
   unique()
 
-#number of unique years = 75
-as.factor(clim_data$year)
-
-number_years<-clim_data %>% 
-  group_by(year) %>% 
-  summarise(COUNT=n())
-
-number_years
-
 ```
 
 ```{r}

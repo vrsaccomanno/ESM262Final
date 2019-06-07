@@ -31,10 +31,12 @@ mean_rainfall = function(clim_table){
   #assign column name
   #colnames(mean_by_year)<-c("Mean Rainfall")
   
-  #Fill in average rainfall per year
+  #Fill in average rainfall per year in tidy format
   mean_by_year<- clim_data %>% 
+    select(year, rain) %>% 
     group_by(year) %>% 
-    mutate(mean_rainfall = mean(rain, na.rm = TRUE))
+    summarize(mean_rain = mean(rain))
+    #mutate(mean_rainfall = mean(rain, na.rm = TRUE))
   
   return(list(mean_by_year=mean_by_year))
 }
