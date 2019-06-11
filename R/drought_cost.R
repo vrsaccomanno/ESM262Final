@@ -15,13 +15,15 @@
 #' 
 
 
-compute_water_NPV = function(df, mean_rain, water_consumption, water_price, drought_co = 1.5) {
+compute_water_NPV = function(df, mean_rain, water_consumption, water_price, time, drought_co = 1.5, discount = 0.01) {
   
   #Making a blank vector to fill with water bill info
   water_bill_nominal<-rep(0, nrow(df)) #assumes good rain in every year
   water_bill_true<-rep(0, nrow(df)) #What actually happens
-  #water_bill_diff<-rep(0, nrow(df)) #The difference between "true" and "nominal"
- 
+  difference <- rep(0, nrow(df))
+  year = df$year
+  difference_NPV = 0
+  
   for(i in 1:nrow(df)){
     
    if(df$mean_rain[i] <2){
@@ -33,8 +35,11 @@ compute_water_NPV = function(df, mean_rain, water_consumption, water_price, drou
   }
     water_bill_true [i] = df$water_consumption[i]*df$water_price[i]*drought_corrfact
     water_bill_nominal[i] = df$water_consumption[i]*df$water_price[i]
-
+    difference [i] = water_bill_true[i]-water_bill_nominal[i]
+    difference_NPV = difference_NPV + difference[i]/(1+discount)**water_use_price$time[i]
+    #sum_difference_NPV = sum(df$difference_NPV[i])
   }
   
-  return(data.frame(water_bill_nominal=water_bill_nominal, water_bill_true=water_bill_true, difference = water_bill_true-water_bill_nominal))
+future_value = ((1+discount)**75 * difference_NPV)
+  return(list(water_use = data.frame(year=year, water_bill_nominal=water_bill_nominal, water_bill_true=water_bill_true, difference = difference), difference_NPV = difference_NPV, future_value))
   }
