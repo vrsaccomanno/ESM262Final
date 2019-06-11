@@ -37,15 +37,15 @@ water_use_price <- clim_table %>%
     select(year,rain) %>% 
     group_by(year) %>% 
     summarize(mean_rain = mean(rain)) %>% 
-    mutate(water_consumption = round((runif(75, min = 25, max = 50)), 2)) %>% 
-    mutate(water_price = round((runif(75, min = 3, max = 5)), 2))
-
+    mutate(water_consumption = round((runif(75, min = 40, max = 2000)), 2)) %>% #annual water usage data generation (HCF)
+    mutate(water_price = round((runif(75, min = 3, max = 5)), 2)) %>% #water price in SB per hectare cubic feet (HCF)
+    mutate(time = 1:75) #adding time for discounting
     
 for(i in 2:nrow(water_use_price)){
   
   water_use_price$water_consumption[i] = water_use_price$water_consumption[i-1] + water_use_price$water_consumption[i-1]*0.005
   
-}
+} #for loop to increase water consumption over time as populaiton increases in 
 
 for(i in (nrow(water_use_price)-1):1){
   
@@ -55,7 +55,7 @@ for(i in (nrow(water_use_price)-1):1){
 #Funcation
 source("R/drought_cost.R")
 
-water_use_output = compute_water_NPV(df = water_use_price, mean_rain = mean_rain, water_consumption = water_consumption,water_price = water_price)
+water_use_output = compute_water_NPV(df = water_use_price, mean_rain = mean_rain, water_consumption = water_consumption, water_price = water_price, time = time)
 
 water_use_output
 
