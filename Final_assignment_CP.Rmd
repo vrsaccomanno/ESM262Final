@@ -17,6 +17,7 @@ Here’s what the package should contain:
 - at least two different functions that summarize climate data in some way (your choice - it could be finding a trend, or finding extremes; or even simply mean winter precipitation)     
 
 - at least two functions that calculate some measure of impact (you can really make these up) -so for example you could create a function that computes a heat stress index based on air temperature with parameters that vary for different species; or a function that estimates water supply from precipitation with parameters that vary to reflect water storage …you can make something up just as long as its somewhat sensible  
+
 - one function that estimates the costs of impacts  
 - use multi-dimensional arrays in one of your functions  
 
@@ -39,8 +40,9 @@ source("R/clim_regression.R")
 climate_var_regress(clim_raw,1942,2016,"tmax","rain",plot = TRUE)
 ```
 
-```{r}
-## Example spp abundance data
+```{r marine_spp_abun_data}
+
+## Example marine species abundance data
 marine_sppA = array(dim=c(5,3,3))
 
 # Fill in first 'z'
@@ -50,12 +52,14 @@ for (i in 1:5){
   marine_sppA[i,3,1] = round(rnorm(mean = 40,sd=5,n=1),0)
 }
 
+# Fill in second 'z'
 for (i in 1:5){
   marine_sppA[i,1,2] = round(runif(min = 10,max=20,n=1),0)
   marine_sppA[i,2,2] = round(rnorm(mean = 20,sd=5,n=1),0)
   marine_sppA[i,3,2] = round(rnorm(mean = 20,sd=5,n=1),0)
 }
 
+# Fill in third 'z'
 for (i in 1:5){
   marine_sppA[i,1,3] = round(runif(min = 20,max=50,n=1),0)
   marine_sppA[i,2,3] = round(runif(min = 1,max=6,n=1),0)
@@ -65,7 +69,6 @@ for (i in 1:5){
 dimnames(marine_sppA) = list(c("Devereaux","Leadbetter","Rincon","CoalOil","CampusPoint"), 
                       c("lprdshark","anemone","sea_cabbage"),
                       c("innertidal","midinnertidal","openocean"))
-
 
 ```
 
