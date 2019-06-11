@@ -12,13 +12,17 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 #Attach packages
 library(tidyverse)
+library(roxygen2)
+library(devtools)
 
 #Source functions
-source("R/mean_rainfall.R")
+source("R/mean_rain_temp.R")
 ```
 
 
 ```{r data}
+
+#Read in input dataframe populated with data from the SB-LTER meterology station that includes information on daily maximum temperature, minimum temperature, and rainfall from 1942-2016
 clim_table <- read.table("clim.txt") %>% 
   unique()
 
@@ -32,7 +36,7 @@ mean_output
 
 ```{r measure_fxn_1}
 
-#Creating sample data for the impact funcation 1
+#Creating sample data for the climate costs of impact funcation 1
 water_use_price <- clim_table %>% 
     select(year,rain) %>% 
     group_by(year) %>% 
@@ -45,14 +49,15 @@ for(i in 2:nrow(water_use_price)){
   
   water_use_price$water_consumption[i] = water_use_price$water_consumption[i-1] + water_use_price$water_consumption[i-1]*0.005
   
-} #for loop to increase water consumption over time as populaiton increases in 
+} #for loop to increase water consumption over time as populaiton increases in SB
 
 for(i in (nrow(water_use_price)-1):1){
   
   water_use_price$water_price[i] = water_use_price$water_price[i]*(1-.025)^(nrow(water_use_price)-i)
-}
+} #for loop to increase water price over time with inflation
 
-#Funcation
+#Function to asses the impact of drought years (<2 mm of rain per year) on the average annual cost of water per HCF. Function output gives annual average houshold water bill in SB in non-drought years (water-bill-nominal), the annual average houshold water bill in SB when drought occurs or not (water_bill_true), and the annual costs of the drought on the average household in SB per year (difference). The function also outputs the NPV of the difference in cost and the total present value of the costs of drought in SB.
+
 source("R/drought_cost.R")
 
 water_use_output = compute_water_NPV(df = water_use_price, mean_rain = mean_rain, water_consumption = water_consumption, water_price = water_price, time = time)

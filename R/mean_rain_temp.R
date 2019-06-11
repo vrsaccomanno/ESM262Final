@@ -1,5 +1,5 @@
 #' 
-#' Climate function #1 - mean rainfall, maximum temperature and minimum temperature by year
+#' Climate function #1 - mean rainfall, maximum temperature, and minimum temperature by year
 #' 
 #' @param clim_data An input dataframe/table populated with data from the SB-LTER meterology station that includes information on daily maximum temperature, minimum temperature, and rainfall from 1942-2016
 #' 
@@ -15,6 +15,7 @@
 #' \item wy water year
 #' }
 #' 
+#' @return Mean rainfall (mm), maximum temperature (C), and minimum temperature (C) by year
 #' @author Claire Powers and Vienna Saccomanno
 #' 
 #' 
