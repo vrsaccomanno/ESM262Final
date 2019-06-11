@@ -21,7 +21,7 @@ Here’s what the package should contain:
 - use multi-dimensional arrays in one of your functions  
 
 The package should contain:  
-- some sample data  
+- some sample data
 - documentation for ALL functions  
 - a vignette that shows how to use several of the functions with the sample data  
 - 3 separate tests - (next weeks lecture)  
@@ -29,16 +29,43 @@ The package should contain:
 ```{r clim_var_relationships}
 library(tidyverse)
 library(testthat)
+library(cowplot)
 clim_raw = read.table("clim.txt")
 
-clim = clim_raw %>% 
-  filter(year %in% 1980:2016) 
+source("R/mean_rainfall.R")
+mean_rainfall(clim_table = clim)
 
 source("R/clim_regression.R")
+climate_var_regress(clim_raw,1942,2016,"tmax","rain",plot = TRUE)
+```
 
-climate_var_regress(clim,"tmin","month",plot = TRUE)
+```{r}
+## Example spp abundance data
+marine_sppA = array(dim=c(5,3,3))
+
+# Fill in first 'z'
+for (i in 1:5){
+  marine_sppA[i,1,1] = round(runif(min = 1,max=5,n=1),0)
+  marine_sppA[i,2,1] = round(rnorm(mean = 35,sd=5,n=1),0)
+  marine_sppA[i,3,1] = round(rnorm(mean = 40,sd=5,n=1),0)
+}
+
+for (i in 1:5){
+  marine_sppA[i,1,2] = round(runif(min = 10,max=20,n=1),0)
+  marine_sppA[i,2,2] = round(rnorm(mean = 20,sd=5,n=1),0)
+  marine_sppA[i,3,2] = round(rnorm(mean = 20,sd=5,n=1),0)
+}
+
+for (i in 1:5){
+  marine_sppA[i,1,3] = round(runif(min = 20,max=50,n=1),0)
+  marine_sppA[i,2,3] = round(runif(min = 1,max=6,n=1),0)
+  marine_sppA[i,3,3] = round(runif(min = 1,max=5,n=1),0)
+}
+
+dimnames(marine_sppA) = list(c("Devereaux","Leadbetter","Rincon","CoalOil","CampusPoint"), 
+                      c("lprdshark","anemone","sea_cabbage"),
+                      c("innertidal","midinnertidal","openocean"))
 
 
 ```
-
 
