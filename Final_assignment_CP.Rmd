@@ -34,6 +34,7 @@ library(cowplot)
 clim_raw = read.table("clim.txt")
 
 source("R/clim_regression.R")
+source("R/calc_species_abun_change.R")
 climate_var_regress(clim_raw,1942,2016,"tmax","rain",plot = TRUE)
 ```
 
@@ -70,12 +71,8 @@ dimnames(marine_spp_abun) = list(c("Devereaux","Leadbetter","Rincon","CoalOil","
 ```
 
 ```{r mdim_fun}
-df_fltr = clim_raw %>% 
-    select(year,tmax) %>% 
-    group_by(year) %>% 
-    summarise(mean_temp = mean(tmax))
 
-spp_abun_change(clim_raw,"year","month","tmax")
+spp_abun_change(clim_raw,"year","tmax", species_array = marine_spp_abun)
 
 ```
 
